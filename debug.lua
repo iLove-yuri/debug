@@ -179,6 +179,7 @@ diamondLbl.ImageColor3         = Color3.fromRGB(60, 60, 60)
 diamondLbl.ZIndex              = 3
 diamondLbl.Parent              = sidebar
 local logBtn = makeSideBtn("LOG")
+local lockBtn = makeSideBtn("LOCK")
 local logFrame                     = Instance.new("ScrollingFrame")
 logFrame.Name                      = "LogFrame"
 logFrame.Size                      = UDim2.new(1, -SIDEBAR_W, 1, -HEADER_H - 1)
@@ -199,6 +200,9 @@ logLayout.Padding                  = UDim.new(0, 1)
 logLayout.Parent                   = logFrame
 logLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
     logFrame.CanvasSize = UDim2.fromOffset(0, logLayout.AbsoluteContentSize.Y + 12)
+    if not locked then
+        logFrame.CanvasPosition = Vector2.new(0, math.huge)
+    end
 end)
 local logPad                       = Instance.new("UIPadding")
 logPad.PaddingLeft                 = UDim.new(0, PAD)
@@ -220,6 +224,7 @@ placeholder.Parent                 = logFrame
 local lines     = {}
 local lineCount = 0
 local minimized = false
+local locked    = false
 local fullH     = H
 local function formatArgs(...)
     local parts = {}
@@ -232,6 +237,7 @@ local function scrollToBottom()
     logFrame.CanvasPosition = Vector2.new(0, math.huge)
 end
 local function addLine(text)
+    if locked then return end
     if placeholder.Parent then placeholder:Destroy() end
     lineCount += 1
     if lineCount > MAX_LINES then
@@ -261,7 +267,6 @@ local function addLine(text)
         if lbl.TextTransparency <= 0 then conn:Disconnect() end
     end)
     table.insert(lines, lbl)
-    task.defer(scrollToBottom)
     return lbl
 end
 function debug(...)
@@ -296,6 +301,16 @@ logBtn.MouseButton1Click:Connect(function()
     end
     local ok, err = pcall(writefile, "_lesbian_log.txt", table.concat(out, "\n"))
     addLine(ok and "saved _lesbian_log.txt" or "writefile failed: " .. tostring(err))
+end)
+lockBtn.MouseButton1Click:Connect(function()
+    locked = not locked
+    if locked then
+        lockBtn.TextColor3      = Color3.fromRGB(255, 80, 80)
+        lockBtn.BackgroundColor3 = Color3.fromRGB(50, 20, 20)
+    else
+        lockBtn.TextColor3      = DIM_COL
+        lockBtn.BackgroundColor3 = BTN_BG
+    end
 end)
 minBtn.MouseButton1Click:Connect(function()
     minimized     = not minimized
