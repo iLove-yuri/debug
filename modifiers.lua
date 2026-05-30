@@ -1,4 +1,4 @@
-return {
+local t = {
 	Ourple = {
 		Necrotic = 0.95,
 		Force = 0.95,
@@ -209,3 +209,16 @@ return {
 		Psychic = 0.9
 	}
 }
+function t.CalculateMultiplier(p1, p2) --[[ CalculateMultiplier | Line: 257 | Upvalues: t (copy) ]]
+	local v1 = 1
+	for i, v in ipairs(p2) do
+		if t[v] and t[v][p1] then
+			if t[v][p1] == 0 then
+				return 0
+			end
+			v1 = v1 * t[v][p1]
+		end
+	end
+	return v1
+end
+return t
