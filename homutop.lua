@@ -23,12 +23,23 @@ function Yuri.new(Opts)
         end
         return P
     end
+    local function SafeGetAsset(N)
+        local P = GetAsset(N)
+        if not isfile(P) then
+            return ""
+        end
+        local Ok, Res = pcall(getcustomasset, P)
+        if Ok and Res then
+            return Res
+        end
+        return ""
+    end
     MkFldr("yuri")
     MkFldr(ADir)
-    local Pnl = getcustomasset(GetAsset("UI.png"))
-    local Cnc = getcustomasset(GetAsset("Cancel.png"))
-    local Hmu = getcustomasset(GetAsset("Homu.png"))
-    local Mdo = getcustomasset(GetAsset("Mado.png"))
+    local Pnl = SafeGetAsset("UI.png")
+    local Cnc = SafeGetAsset("Cancel.png")
+    local Hmu = SafeGetAsset("Homu.png")
+    local Mdo = SafeGetAsset("Mado.png")
     local Mob      = Uis.TouchEnabled and not Uis.KeyboardEnabled
     local Fnt      = Enum.Font.Code
     local Fsz      = Mob and 14 or 16
