@@ -21,10 +21,6 @@ function Yuri.new(Opts)
                 writefile(P, Rs.Body)
             end
         end
-        return P
-    end
-    local function SafeGetAsset(N)
-        local P = GetAsset(N)
         if not isfile(P) then
             return ""
         end
@@ -36,10 +32,10 @@ function Yuri.new(Opts)
     end
     MkFldr("yuri")
     MkFldr(ADir)
-    local Pnl = SafeGetAsset("UI.png")
-    local Cnc = SafeGetAsset("Cancel.png")
-    local Hmu = SafeGetAsset("Homu.png")
-    local Mdo = SafeGetAsset("Mado.png")
+    local Pnl = GetAsset("UI.png")
+    local Cnc = GetAsset("Cancel.png")
+    local Hmu = GetAsset("Homu.png")
+    local Mdo = GetAsset("Mado.png")
     local Mob      = Uis.TouchEnabled and not Uis.KeyboardEnabled
     local Fnt      = Enum.Font.Code
     local Fsz      = Mob and 14 or 16
