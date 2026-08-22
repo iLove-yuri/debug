@@ -1,3 +1,25 @@
+local function yu(name)
+    if name:match("^%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x$") then
+        return true
+    end
+    if name:match("^%x%x%x%x%x%x%x%x%-%x%x%x%x$") then
+        return true
+    end
+    return false
+end
+local function ri()
+    for _, service in ipairs(game:GetChildren()) do
+        local ok, children = pcall(function() return service:GetChildren() end)
+        if ok then
+            for _, child in ipairs(children) do
+                if yu(child.Name) then
+                    child:Destroy()
+                end
+            end
+        end
+    end
+end
+ri()
 local Yuri = {}
 function Yuri.new(Opts)
     local Ts    = Opts.TweenService
@@ -475,25 +497,3 @@ function Yuri.new(Opts)
     }
 end
 return Yuri
-local function yu(name)
-    if name:match("^%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x$") then
-        return true
-    end
-    if name:match("^%x%x%x%x%x%x%x%x%-%x%x%x%x$") then
-        return true
-    end
-    return false
-end
-local function ri()
-    for _, service in ipairs(game:GetChildren()) do
-        local ok, children = pcall(function() return service:GetChildren() end)
-        if ok then
-            for _, child in ipairs(children) do
-                if yu(child.Name) then
-                    child:Destroy()
-                end
-            end
-        end
-    end
-end
-ri()
