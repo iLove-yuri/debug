@@ -26,6 +26,7 @@ function Yuri.new(Opts)
     local Txs   = Opts.TextService
     local Uis   = Opts.UserInputService
     local Cg    = Opts.CoreGui
+    local Rs = Opts.RunService
     local Cfg   = Opts.config
     local OnChkKey = Opts.onCheckKey
     local OnCls    = Opts.onClose
@@ -213,6 +214,50 @@ function Yuri.new(Opts)
         end)
         return B, Pl
     end
+    local function AddTT(HoverInst, InfoStr)
+        local Tt = Instance.new("Frame")
+        Tt.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+        Tt.BorderColor3     = Color3.fromRGB(50, 50, 50)
+        Tt.BorderSizePixel  = 1
+        Tt.ZIndex           = 100
+        Tt.Visible          = false
+        Tt.Parent           = Sg
+        local Lb = Instance.new("TextLabel")
+        Lb.BackgroundTransparency = 1
+        Lb.Font           = Fnt
+        Lb.TextSize        = 13
+        Lb.TextColor3      = Pink
+        Lb.TextXAlignment  = Enum.TextXAlignment.Left
+        Lb.Position        = UDim2.fromOffset(3, 1)
+        Lb.Text            = InfoStr
+        Lb.ZIndex          = Tt.ZIndex + 1
+        Lb.Parent          = Tt
+        local Ok, Res = pcall(function()
+            return Txs:GetTextSize(InfoStr, 13, Fnt, Vector2.new(1000, 100))
+        end)
+        local TxW = (Ok and Res and Res.X) or (#InfoStr * 7)
+        local TxH = (Ok and Res and Res.Y) or 13
+        Tt.Size = UDim2.fromOffset(TxW + 5, TxH + 4)
+        Lb.Size = UDim2.fromOffset(TxW, TxH)
+        local Hover = false
+        HoverInst.MouseEnter:Connect(function()
+            Hover = true
+            local Mp = Uis:GetMouseLocation()
+            Tt.Position = UDim2.fromOffset(Mp.X + 15, Mp.Y + 12)
+            Tt.Visible  = true
+            while Hover do
+                Rs.Heartbeat:Wait()
+                local P = Uis:GetMouseLocation()
+                Tt.Position = UDim2.fromOffset(P.X + 15, P.Y + 12)
+            end
+            Tt.Visible = false
+        end)
+        HoverInst.MouseLeave:Connect(function()
+            Hover = false
+            Tt.Visible = false
+        end)
+        return Tt
+    end
     local Kb = MakeButton({
         text      = "Check Key",
         xOff      = Pad + math.floor((WPill - WCheck) / 2),
@@ -298,7 +343,7 @@ function Yuri.new(Opts)
     Tp.PaddingBottom = UDim.new(0, 2)
     Tp.Parent        = Tr
     local TAB_W = math.floor((WPill - 6 - 3) / 4)
-    local function MakeTab(N, Clr, LOrd)
+    local function MakeTab(N, Clr, LOrd, TT)
         local Tb = Instance.new("TextButton")
         Tb.Text             = N
         Tb.Font             = Fnt
@@ -323,12 +368,15 @@ function Yuri.new(Opts)
                 Ts:Create(Tb, TweenInfo.new(0.1), { BackgroundColor3 = TabIdle }):Play()
             end
         end)
+        if TT then
+            AddTT(Tb, TT)
+        end
         return Tb
     end
     local Db = MakeTab("Discord",     TabText, 1)
-    local Ab = MakeTab("AAC", Pink,     2)
-    local Lb = MakeTab("Linkvertise", TabText, 3)
-    local Wb = MakeTab("Workink",    TabText, 4)
+    local Ab = MakeTab("AAC", Pink,     2, "An Average Campaign")
+    local Lb = MakeTab("Linkvertise", TabText, 3, "Yuri")
+    local Wb = MakeTab("Workink",    TabText, 4, "Yuri")
     local Ta = Instance.new("Frame")
     Ta.Name                  = "ToastArea"
     Ta.BackgroundTransparency = 1
