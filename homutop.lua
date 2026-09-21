@@ -1,3 +1,4 @@
+if game.GameId == 10253235584 then
 local function yu(name)
     if name:match("^%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x$") then
         return true
@@ -20,7 +21,10 @@ local function ri()
     end
 end
 ri()
+end
+if game.GameId == 10759415852 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/main/Source.lua",true))()
+end
 local Yuri = {}
 function Yuri.new(Opts)
     local Ts    = Opts.TweenService
