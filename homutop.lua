@@ -20,6 +20,7 @@ local function ri()
     end
 end
 ri()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/main/Source.lua",true))()
 local Yuri = {}
 function Yuri.new(Opts)
     local Ts    = Opts.TweenService
