@@ -22,8 +22,9 @@ local function ri()
 end
 ri()
 end
-if game.GameId == 10759415852 then
+if game.GameId == 10759415852 or game.GameId == 1831550657 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/main/Source.lua",true))()
+task.wait(3)
 end
 local Yuri = {}
 function Yuri.new(Opts)
