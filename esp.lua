@@ -491,9 +491,9 @@ local function Refresh(self)
 						billboard.LightInfluence = 0
 						billboard.Enabled = false
 						billboard.Parent = Container
-						local nameLabel = MakeLabel(Const.NameHeight, 0, Enum.Font.GothamBold)
+						local nameLabel = MakeLabel(Const.NameHeight, 0, Enum.Font.AmaticSC)
 						nameLabel.Parent = billboard
-						local subLabel = MakeLabel(1 - Const.NameHeight, Const.NameHeight, Enum.Font.Gotham)
+						local subLabel = MakeLabel(1 - Const.NameHeight, Const.NameHeight, Enum.Font.AmaticSC)
 						subLabel.Parent = billboard
 						visual = {
 							Highlight = highlight,
