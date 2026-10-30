@@ -309,13 +309,9 @@ local function Refresh(self)
 			self:HideAll()
 			return
 		end
-		local origin
-		if self.GetOrigin then
-			origin = self.GetOrigin()
-		else
-			local camera = workspace.CurrentCamera
-			origin = camera and camera.CFrame.Position
-		end
+		local character = LocalPlayer.Character
+		local root = character and character:FindFirstChild("HumanoidRootPart")
+		local origin = root and root.Position
 		if not origin then
 			self:HideAll()
 			return
