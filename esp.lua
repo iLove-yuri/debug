@@ -310,7 +310,7 @@ local function Refresh(self)
 			return
 		end
 		local character = LocalPlayer.Character
-		local root = character and character:FindFirstChild("HumanoidRootPart")
+		local root = character and (character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Root"))
 		local origin = root and root.Position
 		if not origin then
 			self:HideAll()
@@ -367,6 +367,7 @@ local function Refresh(self)
 							elseif model:IsA("Model") then
 								part = model.PrimaryPart
 									or model:FindFirstChild("HumanoidRootPart")
+									or model:FindFirstChild("Root")
 									or model:FindFirstChildWhichIsA("BasePart", true)
 							else
 								part = nil
