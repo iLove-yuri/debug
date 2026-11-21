@@ -74,6 +74,7 @@ local Store = {
 	DefaultColor = Color3.fromRGB(255, 255, 255),
 	EnemyColor = Color3.fromRGB(255, 25, 25),
 	AllyColor = Color3.fromRGB(25, 255, 25),
+	OriginProvider = nil,
 }
 local ESP = {
 	Store = Store,
@@ -84,6 +85,7 @@ local ESP = {
 	DrawPool = {},
 	Gen = 0,
 	Unloaded = false,
+	SupportsOrigin = true,
 	AllHidden = false,
 	DrawNeeded = false,
 	WarnedDrawing = false,
@@ -309,9 +311,13 @@ local function Refresh(self)
 			self:HideAll()
 			return
 		end
-		local character = LocalPlayer.Character
-		local root = character and (character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Root"))
-		local origin = root and root.Position
+		local provider = settings.OriginProvider
+		local origin = provider and provider()
+		if not origin then
+			local character = LocalPlayer.Character
+			local root = character and (character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Root"))
+			origin = root and root.Position
+		end
 		if not origin then
 			self:HideAll()
 			return
